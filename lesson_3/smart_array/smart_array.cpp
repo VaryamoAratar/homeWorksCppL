@@ -1,5 +1,4 @@
-﻿#include<iostream>
-#include "SmartArray.h"
+﻿#include "SmartArray.h"
 
 int main()
 {
