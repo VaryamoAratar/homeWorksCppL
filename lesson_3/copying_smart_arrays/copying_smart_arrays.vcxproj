@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="copying_smart_arrays.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="SmartArray.cpp" />
   </ItemGroup>
   <ItemGroup>
