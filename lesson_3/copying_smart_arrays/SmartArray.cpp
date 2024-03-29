@@ -1,5 +1,5 @@
 #include "SmartArray.h"
-	// добавление элемента в массив
+	// РґРѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РјР°СЃСЃРёРІ
 	void SmartArray::add_element(const int& value)
 	{
 		if (size_logical_ > size_ - 1)
@@ -16,7 +16,7 @@
 		arr[size_logical_] = value;
 		size_logical_++;
 	};
-	// получение значения по индексу
+	// РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РїРѕ РёРЅРґРµРєСЃСѓ
 	int SmartArray::get_element(const int& index)
 	{
 		if (index < 0 || index >= size_)
@@ -26,7 +26,7 @@
 		else
 			return arr[index];
 	};
-	// вывод значений массива в консоль
+	// РІС‹РІРѕРґ Р·РЅР°С‡РµРЅРёР№ РјР°СЃСЃРёРІР° РІ РєРѕРЅСЃРѕР»СЊ
 	void SmartArray::print_array()
 	{
 		for (int i = 0; i < size_logical_; i++)
@@ -39,11 +39,11 @@
 		}
 		std::cout << std::endl;
 	}
-	// конструктор по умолчанию
+	// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	SmartArray::SmartArray(int size) :size_{ size }, arr{ new int[size] {0} }
 	{
 	}
-	// конструктор копирования при создании объекта класса
+	// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РїСЂРё СЃРѕР·РґР°РЅРёРё РѕР±СЉРµРєС‚Р° РєР»Р°СЃСЃР°
 	SmartArray::SmartArray(const SmartArray& copy)
 	{
 		size_ = copy.size_;
@@ -54,12 +54,12 @@
 		arr[i] = copy.arr[i];
 		}
 	}
-	// деструктор по умолчанию
+	// РґРµСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	SmartArray::~SmartArray()
 	{
 		delete[] arr;
 	}
-	// перегрузка оператора присваивания для копирования одного массива в другой
+	// РїРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РїСЂРёСЃРІР°РёРІР°РЅРёСЏ РґР»СЏ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° РІ РґСЂСѓРіРѕР№
 	SmartArray& SmartArray::operator = (const SmartArray& copy_)
 	{
 		delete[] arr;
