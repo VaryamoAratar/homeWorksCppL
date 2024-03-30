@@ -21,7 +21,7 @@
 	{
 		if (index < 0 || index >= size_)
 		{
-			throw std::exception("index out of range");
+			throw std::runtime_error("index out of range");
 		}
 		else
 			return arr[index];
@@ -62,13 +62,16 @@
 	// перегрузка оператора присваивания для копирования одного массива в другой
 	SmartArray& SmartArray::operator = (const SmartArray& copy_)
 	{
-		delete[] arr;
-		size_ = copy_.size_;
-		size_logical_ = copy_.size_logical_;
-		arr = new int[copy_.size_] {0};
-		for (size_t i = 0; i < copy_.size_logical_; i++)
+		if (this != &copy_)
 		{
-			arr[i] = copy_.arr[i];
+			delete[] arr;
+			size_ = copy_.size_;
+			size_logical_ = copy_.size_logical_;
+			arr = new int[copy_.size_] {0};
+			for (size_t i = 0; i < copy_.size_logical_; i++)
+			{
+				arr[i] = copy_.arr[i];
+			}
 		}
 		return *this;
 	}
