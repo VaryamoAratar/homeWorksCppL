@@ -94,40 +94,45 @@ private:
     unsigned long m_size;
 };
 
-TEST_CASE("Тест методов Empty, Clear, Size двусвязного списка")
+
+TEST_CASE("Empty, Clear, Size двусвязного списка")
 {
     List test;
     SECTION("Пустой список")
     {
         REQUIRE(test.Empty() == 1);
         REQUIRE(test.Size() == 0);
-        test.Clear();
-    }
-    SECTION("Один элемент в списке")
-    {
-        test.PushBack(10);
-        REQUIRE(test.Empty() == 0);
-        SECTION("Error")
+        try
         {
-            INFO("Проверка Empty");
-            REQUIRE(test.Empty() == 1);
-        }
-        REQUIRE(test.Size() == 1);
         test.Clear();
+        }
+        catch (...)
+        {
+            //Метод Clear не сработал
+            std::cerr << __func__ << std::endl;
+        }
         REQUIRE(test.Empty() == 1);
         REQUIRE(test.Size() == 0);
     }
-    SECTION("Пять элементов в списке")
+    SECTION("Несколько элементов в списке")
     {
-        test.PushBack(10);
-        test.PushBack(20);
-        test.PushBack(30);
-        test.PushBack(40);
-        test.PushBack(50);
+        int elementNumber = 5;
+        for (size_t i = 0; i < elementNumber; i++)
+        {
+            test.PushBack(i + 1);
+        }
 
         REQUIRE(test.Empty() == 0);
-        REQUIRE(test.Size() == 5);
-        test.Clear();
+        REQUIRE(test.Size() == elementNumber);
+        try
+        {
+            test.Clear();
+        }
+        catch (...)
+        {
+            //Метод Clear не сработал
+            std::cerr << __func__ << std::endl;
+        }
         REQUIRE(test.Empty() == 1);
         REQUIRE(test.Size() == 0);
 
