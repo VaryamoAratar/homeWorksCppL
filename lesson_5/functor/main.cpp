@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 
+//Шаблонный функтор для суммы чисел делимых на 3
 template<class T>
 struct Sum
 {
@@ -15,6 +16,7 @@ struct Sum
 	T sum{ 0 };
 };
 
+//Шаблонный функтор для счетчика чисел делимых на 3
 template<class T>
 struct Count
 {
@@ -28,12 +30,15 @@ struct Count
 	T count{ 0 };
 };
 
+//Шаблонная функция для подсчета суммы чисел делимых на 3
 template<class T>
 T get_sum(std::vector<T>& v)
 {
 	Sum<T> s = std::for_each(v.begin(), v.end(), Sum<T>());
 	return s.sum;
 }
+
+//Шаблонная функция для подсчета чисел делимых на 3
 template<class T>
 T get_count(std::vector<T>& v)
 {

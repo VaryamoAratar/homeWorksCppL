@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <exception>
 
-
+//Обертка для перегрузки оператора [] для столбцов
 template<typename T>
 class TWrapper
 {
@@ -22,11 +22,12 @@ private:
 	T* _arr;
 	int _cols;
 };
-
+//Шаблонный класс таблицы
 template<class T>
 class Table
 {
 public:
+	//Конструктор
 	Table(int rows, int cols) :_rows(rows), _cols(cols)
 	{
 		_arr = new  T * [_rows];
@@ -35,6 +36,7 @@ public:
 			_arr[i] = new T[_cols]{ 0 };
 		}
 	};
+	//Деструктор
 	~Table()
 	{
 		for (int i = 0; i < _rows; i++)
@@ -43,6 +45,7 @@ public:
 		}
 		delete[] _arr;
 	};
+	//Конструктор копирования
 	Table(const Table& copy)
 	{
 		_rows = copy._rows;
@@ -60,6 +63,7 @@ public:
 			}
 		}
 	};
+	// Оператор =
 	Table& operator = (const Table& copy)
 	{
 		if (this != &copy)
@@ -86,6 +90,7 @@ public:
 		}
 		return *this;
 	}
+	//Перегруженный оператор [] для строк
 	TWrapper<T> operator [] (int i)
 	{
 		if (i < 0 || i >= _rows)
