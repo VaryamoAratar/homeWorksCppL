@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(List)
+find_package(Catch2 CONFIG REQUIRED)
+include_directories(D:/Code/tools/vcpkg/packages/catch2_x64-windows/include)
+add_executable(List List.cpp main_test.cpp)
+target_link_libraries(List PRIVATE Catch2::Catch2 Catch2::Catch2WithMain)
