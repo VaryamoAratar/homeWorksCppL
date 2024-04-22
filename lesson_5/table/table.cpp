@@ -18,6 +18,16 @@ public:
 
 		return _arr[j];
 	}
+		T& operator [] (int j) const
+	{
+		if (j < 0 || j >= _cols)
+		{
+			throw std::out_of_range("out_of_range");
+		}
+
+		return _arr[j];
+	}
+
 private:
 	T* _arr;
 	int _cols;
@@ -98,11 +108,27 @@ public:
 			throw std::out_of_range("out_of_range");
 		}
 		TWrapper<T> result(_cols, _arr[i]);
-		
+
 		return result;
 	}
+	const TWrapper<T> operator [] (int i) const
+	{
+		if (i < 0 || i >= _rows)
+		{
+			throw std::out_of_range("out_of_range");
+		}
+		TWrapper<T> result(_cols, _arr[i]);
+
+		return result;
+	}
+
 	int get_rows() { return _rows; }
 	int get_cols() { return _cols; }
+	//Возвращает пару ROWS and COLS
+	std::pair<int, int> Size() const
+	{
+		return { _rows , _cols };
+	}
 private:
 	T** _arr;
 	int _rows;
@@ -118,6 +144,7 @@ int main(int argc, char* agrv[])
 	{
 	test[0][0] = 4;
 	test[1][1] = 5;
+	std::cout << "Size of table: " << test.Size().first << 'x' << test.Size().second << std::endl;
 	for (int i = 0; i < test.get_rows(); i++)
 	{
 		for (int j = 0; j < test.get_cols(); j++)

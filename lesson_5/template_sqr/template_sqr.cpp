@@ -3,21 +3,21 @@
 
 //Шаблонная функция возведения в квадрат
 template<class T>
-T mySqr(T x)
+T mySqr(const T& x)
 {
 	return x * x;
 }
 
 //Шаблонная функция возведения в квадрат вектора
 template<class T>
-std::vector<T> mySqr(std::vector<T> x)
+std::vector<T> mySqr(const std::vector<T>& x)
 {
-	for (auto& i : x)
+	std::vector<T> y(x.size());
+	for (auto i = 0; i < x.size(); i++)
 	{
-		i *= i;
+		y[i] = x[i] * x[i];
 	}
-
-	return x;
+	return y;
 }
 
 
