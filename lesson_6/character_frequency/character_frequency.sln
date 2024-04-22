@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34601.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "character_frequency", "character_frequency.vcxproj", "{BB37CD67-270A-4863-A68C-12163E2F7369}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Debug|x64.ActiveCfg = Debug|x64
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Debug|x64.Build.0 = Debug|x64
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Debug|x86.ActiveCfg = Debug|Win32
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Debug|x86.Build.0 = Debug|Win32
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Release|x64.ActiveCfg = Release|x64
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Release|x64.Build.0 = Release|x64
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Release|x86.ActiveCfg = Release|Win32
+		{BB37CD67-270A-4863-A68C-12163E2F7369}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD31E563-5F5C-4B4A-9828-322444B04433}
+	EndGlobalSection
+EndGlobal
