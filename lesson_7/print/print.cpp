@@ -7,7 +7,7 @@
 template<class T>
 void print_container(const T& cont)
 {
-    for (auto i : cont)
+    for (const auto& i : cont)
     {
         std::cout << i << ' ';
     }
