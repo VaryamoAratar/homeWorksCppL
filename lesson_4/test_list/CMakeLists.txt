@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(TestList)
+find_package(Catch2 CONFIG REQUIRED)
+include_directories(D:/Code/Study/homeWorksCppL/lesson_4/test_metod)
+add_executable(${PROJECT_NAME} main.cpp)
+add_executable(TestListTest main_test.cpp)
+target_link_libraries(TestListTest PRIVATE Catch2::Catch2 Catch2::Catch2WithMain)
