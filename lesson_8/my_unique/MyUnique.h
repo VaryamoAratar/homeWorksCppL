@@ -4,15 +4,18 @@ template<class T>
 class MyUnique
 {
 private:
-	T* _ptr = new T;
+	T* _ptr;
 public:
+	MyUnique()
+	{
+		_ptr = new T;
+	}
 	MyUnique(T* ptr)
 	{
 		_ptr = ptr;
 	};
 	~MyUnique()
 	{
-		std::cout << "Call destructor" << std::endl;
 		delete _ptr;
 	};
 
@@ -21,13 +24,18 @@ public:
 
 	T operator * ()
 	{
+		if (_ptr == nullptr)
+		{
+			return false;
+		}
 		return *_ptr;
-	};
+	}
 
 	T* release()
 	{
-		_ptr = nullptr;
-		return _ptr;
+		T* temp_ptr = this->_ptr;
+		this->_ptr = nullptr;
+		return temp_ptr;
 	}
 };
 
