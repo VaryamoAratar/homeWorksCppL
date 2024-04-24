@@ -26,8 +26,6 @@ public:
 
 	T* release()
 	{
-		delete _ptr;
-
 		_ptr = nullptr;
 		return _ptr;
 	}
