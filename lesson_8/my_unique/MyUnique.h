@@ -6,10 +6,6 @@ class MyUnique
 private:
 	T* _ptr;
 public:
-	MyUnique()
-	{
-		_ptr = new T;
-	}
 	MyUnique(T* ptr)
 	{
 		_ptr = ptr;
