@@ -1,12 +1,4 @@
-﻿#include <iostream>
-#include "BigInteger.h"
-
-std::ostream& operator << (std::ostream& os, const BigInteger& rhs)
-{
-	for (auto i : rhs._v)
-		std::cout << i;
-	return os;
-}
+﻿#include "BigInteger.h"
 
 int main()
 {

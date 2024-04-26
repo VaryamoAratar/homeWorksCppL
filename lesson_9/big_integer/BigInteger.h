@@ -4,7 +4,9 @@
 #include <iterator>
 #include <string>
 #include <exception>
+#include <iostream>
 
+//Класс для работы с большими числами
 class BigInteger
 {
 
@@ -29,3 +31,4 @@ class BigInteger
 		std::vector<int> result_mult(const std::vector<int>& lhs, const std::vector<int>& rhs);
 
 };
+std::ostream& operator << (std::ostream& os, const BigInteger& rhs);
