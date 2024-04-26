@@ -31,7 +31,7 @@
 		int size_lhs = this->_v.size();
 		int size_rhs = rhs._v.size();
 		std::vector<int> out;
-		if (size_lhs > size_rhs)
+		if (size_lhs >= size_rhs)
 		{
 			out = result_sum(this->_v, rhs._v);
 		}
@@ -39,39 +39,102 @@
 		{
 			out = result_sum(rhs._v, this->_v);
 		}
-		std::swap(this->_v, out);
+		_v = std::move(out);
 		return *this;
 	}
 
-	BigInteger& BigInteger::operator*(int rhs)
+	BigInteger& BigInteger::operator*(const BigInteger& rhs)
 	{
-
+		int size_lhs = this->_v.size();
+		int size_rhs = rhs._v.size();
+		std::vector<int> out;
+		if (size_lhs >= size_rhs)
+		{
+			out = result_mult(this->_v, rhs._v);
+		}
+		else
+		{
+			out = result_mult(rhs._v, this->_v);
+		}
+		_v = std::move(out);
+		return *this;
 	}
 
 
 	std::vector<int> BigInteger::result_sum(const std::vector<int>& lhs, const std::vector<int>& rhs)
 	{
-		std::vector<int> tmp_v;
-		std::vector<int> result;
 		int size_lhs = lhs.size();
 		int size_rhs = rhs.size();
 		int num_tmp = 0;
+		std::vector<int> tmp_v(size_lhs + 1);
+		std::vector<int> result(size_lhs);
 
-		tmp_v.resize(size_lhs);
-		result.resize(size_lhs);
-		for (int i = (size_lhs - 1), j = (size_rhs - 1); i >= (size_lhs - size_rhs), j >= 0; i--, j--)
+		for (int i = (size_lhs - 1), j = (size_rhs - 1); i >= 0, j >= 0; i--, j--)
 		{
-			tmp_v[i] = rhs[j];
-		}
-		for (int i = size_lhs - 1; i >= 0; i--)
-		{
-			result[i] = (lhs[i] + tmp_v[i]) % 10 + num_tmp;
-			if ((lhs[i] + tmp_v[i] + num_tmp) >= 10 && i != 0)
+			result[i] = lhs[i] + rhs[j] + num_tmp;
+			if (result[i] >= 10 && i != 0)
 			{
+				num_tmp = result[i] / 10;
 				result[i] = result[i] % 10;
-				num_tmp = 1;
 			}
 			else num_tmp = 0;
+
+			if (!j)
+			{
+				for (i = (i - 1); i >= 0; i--)
+				{
+					result[i] = lhs[i] + num_tmp;
+					num_tmp = 0;
+				}
+			}
+			if (i == 0 && (lhs[i] + rhs[j] + num_tmp) >= 10)
+			{
+				for (int i = (tmp_v.size() - 1), j = (result.size() - 1); i >= ((tmp_v.size() - 1) - (result.size() - 1)), j >= 0; i--, j--)
+				{
+					tmp_v[i] = result[j];
+				}
+				tmp_v[0] = num_tmp;
+				result = std::move(tmp_v);
+			}
+		}
+		return result;
+	}
+	std::vector<int> BigInteger::result_mult(const std::vector<int>& lhs, const std::vector<int>& rhs)
+	{
+		int size_lhs = lhs.size();
+		int size_rhs = rhs.size();
+		int num_tmp = 0;
+		std::vector<int> tmp_v(size_lhs);
+ 		std::vector<int> result(size_lhs);
+
+		for (int j = size_rhs - 1; j >= 0; j--)
+		{
+			for (int i = (size_lhs - 1); i >= 0; i--)
+			{
+				tmp_v[i] = lhs[i] * rhs[j] + num_tmp;
+				if (tmp_v[i] >= 10 && i != 0)
+				{
+					num_tmp = tmp_v[i] / 10;
+					tmp_v[i] = tmp_v[i] % 10;
+				}
+				else num_tmp = 0;
+
+				if (i == 0 && num_tmp)
+				{
+					tmp_v.push_back(0);
+					for (int i = (tmp_v.size() - 1), j = (tmp_v.size() - 2); i >= 1, j >= 0; i--, j--)
+					{
+						tmp_v[i] = tmp_v[j];
+					}
+					tmp_v[0] = num_tmp;
+					num_tmp = 0;
+				}
+				if (j != (size_rhs - 1) && !i)
+				{
+					tmp_v.push_back(0);
+				}
+			}
+			result = result_sum(tmp_v, result);
 		}
 		return result;
 	}
