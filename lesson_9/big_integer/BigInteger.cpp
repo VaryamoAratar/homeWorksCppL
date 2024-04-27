@@ -20,7 +20,7 @@
 		if (this != &from)
 		{
 			_v.clear();
-			_v = from._v;
+			_v = std::move(from._v);
 		}
 
 		return *this;
@@ -179,7 +179,7 @@ BigInteger::BigInteger(const BigInteger& copy)
 //конструктор перемещающего копирования
 BigInteger::BigInteger(BigInteger&& copy) noexcept
 {
-	_v = copy._v;
+	_v = std::move(copy._v);
 }
 //деструктор
 BigInteger::~BigInteger()
