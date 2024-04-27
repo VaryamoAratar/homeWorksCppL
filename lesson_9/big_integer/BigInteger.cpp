@@ -19,7 +19,6 @@
 	{
 		if (this != &from)
 		{
-			_v.clear();
 			_v = std::move(from._v);
 		}
 
