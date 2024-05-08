@@ -1,11 +1,4 @@
-﻿#include <iostream>
-#include <fstream>
-#include <string>
-#include <iterator>
-#include <algorithm>
-#include <exception>
-
-
+﻿#include "IniParser.h"
 
 int main()
 {
