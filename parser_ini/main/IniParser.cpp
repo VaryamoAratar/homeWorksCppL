@@ -1,6 +1,5 @@
 #include "IniParser.h"
 
-
 IniParser::IniParser(std::string filename) : _filename(filename)
 {
     std::ifstream in_ini_file(_filename);
@@ -9,15 +8,24 @@ IniParser::IniParser(std::string filename) : _filename(filename)
         throw "File is not open";
     }
     std::string str_from_file{};
+    int count_str{ 0 };
 
     while (!in_ini_file.eof())
     {
+        count_str++;
         std::string str_var{};
         std::string str_value{};
+        _var = "";
+        _value = "";
         //считываем всю строку из ини файла
         std::getline(in_ini_file, str_from_file);
         //если строка пустая, то пропускаем цикл
         if (str_from_file.empty())
+        {
+            continue;
+        }
+        //если в строке только пробелы, то пропускаем цикл
+        if (std::all_of(str_from_file.begin(), str_from_file.end(), isspace))
         {
             continue;
         }
@@ -30,8 +38,17 @@ IniParser::IniParser(std::string filename) : _filename(filename)
         //если в строке есть "[", то это название секции, удаляем все пробелы
         if (str_from_file.find('[') != std::string::npos)
         {
+            _var_value.clear();
+            if (str_from_file.find(' ') != std::string::npos)
+            {
             auto it_section = std::remove_if(str_from_file.begin(), str_from_file.end(), [](const char& str_from_file) { return str_from_file == ' '; });
             str_from_file.erase(it_section, str_from_file.end());
+            }
+            if (str_from_file.find(']') == std::string::npos || (std::find(str_from_file.begin(), str_from_file.end(), ']')) != str_from_file.end() - 1)
+            {
+                std::string err = "error in the ini file on the line: " + count_str;
+                throw std::runtime_error(err);
+            }
             _section = str_from_file;
         }
         //если в строке есть "=", то это группа переменная -> значение, делим на 2 части до = и после
@@ -87,24 +104,3 @@ IniParser& IniParser::operator = (IniParser&& move_copy) noexcept
 	return *this;
 };
 
-//template <class T>
-int IniParser::get_value(std::string section_var)
-{
-    std::string section = "[";
-    std::string var;
-    int value = 0;
-
-    auto it_dot = std::find(section_var.begin(), section_var.end(), '.');
-    for (auto i = section_var.begin(); i != it_dot; i++)
-    {
-        section += *i;
-    }
-    section += ']';
-    for (auto i = it_dot + 1; i != section_var.end(); i++)
-    {
-        var += *i;
-    }
-    _section_value.find(section);
-
-    return value;
-};

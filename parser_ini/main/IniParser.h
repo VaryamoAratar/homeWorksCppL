@@ -9,11 +9,7 @@
 #include <map>
 #include <unordered_map>
 
-//struct VarValue
-//{
-//	std::string _var;
-//	std::string _value;
-//};
+
 
 class IniParser
 {
@@ -27,8 +23,62 @@ public:
 	IniParser(IniParser&& move_copy) noexcept;
 	IniParser& operator = (IniParser&& move_copy) noexcept;
 
-	//template <class T>
-	int get_value(std::string section_value);
+	template <class T>
+    T get_value(std::string section_var)
+    {
+        std::string section{ "[" };
+        std::string var{};
+        T value{};
+
+        auto it_dot = std::find(section_var.begin(), section_var.end(), '.');
+        for (auto i = section_var.begin(); i != it_dot; i++)
+        {
+            section += *i;
+        }
+        section += ']';
+        for (auto i = it_dot + 1; i != section_var.end(); i++)
+        {
+            var += *i;
+        }
+        if (!_section_value.count(section))
+        {
+            std::cout << "Available sections:" << std::endl;
+            for (const auto& i : _section_value)
+            {
+                std::cout << i.first << std::endl;
+            }
+            throw std::invalid_argument("The section was not found!");
+        }
+        auto out_var = _section_value[section];
+        if (!out_var.count(var))
+        {
+            std::cout << "Available variable:" << std::endl;
+            for (const auto& i : out_var)
+            {
+                std::cout << i.first << std::endl;
+            }
+            throw std::invalid_argument("The variable was not found!");
+        }
+        std::string out_value = out_var[var];
+
+        if (typeid(value) == typeid(double))
+        {
+            return std::stod(out_value);
+        }
+        else if (typeid(value) == typeid(int))
+        {
+            if (out_value.find('.') == std::string::npos)
+            {
+                return std::stoi(out_value);
+            }
+            else throw std::invalid_argument("the variable not found");
+        }
+        else if (typeid(value) == typeid(std::string))
+        {
+            return 0;
+        }
+        else throw std::invalid_argument("the variable not found");
+    }
 
 private:
 	std::string _filename;

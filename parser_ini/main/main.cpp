@@ -8,7 +8,7 @@ int main()
 	try
 	{
     IniParser parser("sample.ini");
-	auto value = parser.get_value("Section2.var1");
+	auto value = parser.get_value<int>("Section1.var5");
 	std::cout << value << std::endl;
 	}
 	catch (const std::exception& e)
