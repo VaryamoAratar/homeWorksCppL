@@ -9,17 +9,11 @@
 #include <map>
 #include <unordered_map>
 
-struct Value
-{
-	Value(std::string var, int value);
-	Value(std::string var, double value);
-	Value(std::string var, std::string value);
-
-	std::string var;
-	int int_value = NULL;
-	double double_value = NULL;
-	std::string str_value = NULL;
-};
+//struct VarValue
+//{
+//	std::string _var;
+//	std::string _value;
+//};
 
 class IniParser
 {
@@ -39,7 +33,9 @@ public:
 private:
 	std::string _filename;
 	std::string _var;
+	std::string _value;
 	std::string _section;
-	std::unordered_map <std::string, Value> _section_value;
+	std::unordered_map <std::string, std::string> _var_value;
+	std::unordered_map <std::string, std::unordered_map <std::string, std::string>> _section_value;
 };
 
