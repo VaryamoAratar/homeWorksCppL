@@ -24,35 +24,39 @@ IniParser::IniParser(std::string filename) : _filename(filename)
         {
             continue;
         }
-        //если в строке только пробелы, то пропускаем цикл
-        if (std::all_of(str_from_file.begin(), str_from_file.end(), isspace))
-        {
-            continue;
-        }
         //если в строке есть ";" удаляем все комментарии после этого знака
         if (str_from_file.find(';') != std::string::npos)
         {
             auto it_comment = std::find(str_from_file.begin(), str_from_file.end(), ';');
             str_from_file.erase(it_comment, str_from_file.end());
         }
+        //если в строке только пробелы, то пропускаем цикл
+        if (std::all_of(str_from_file.begin(), str_from_file.end(), isspace))
+        {
+            continue;
+        }
         //если в строке есть "[", то это название секции, удаляем все пробелы
-        if (str_from_file.find('[') != std::string::npos)
+        else if (str_from_file.find('[') != std::string::npos)
         {
             _var_value.clear();
             if (str_from_file.find(' ') != std::string::npos)
             {
-            auto it_section = std::remove_if(str_from_file.begin(), str_from_file.end(), [](const char& str_from_file) { return str_from_file == ' '; });
-            str_from_file.erase(it_section, str_from_file.end());
+                auto it_section = std::remove_if(str_from_file.begin(), str_from_file.end(), [](const char& str_from_file) { return str_from_file == ' '; });
+                str_from_file.erase(it_section, str_from_file.end());
             }
-            if (str_from_file.find(']') == std::string::npos || (std::find(str_from_file.begin(), str_from_file.end(), ']')) != str_from_file.end() - 1)
+            //если есть ошибки в описании секции, то выбрасываем исключение
+            if (str_from_file.find(']') == std::string::npos ||
+                (std::find(str_from_file.begin(), str_from_file.end(), ']')) != str_from_file.end() - 1 ||
+                str_from_file[0] != '[')
             {
-                std::string err = "error in the ini file on the line: " + count_str;
+                std::string line_err = std::to_string(count_str);
+                std::string err = "Error in the " + _filename + " on the line: " + line_err;
                 throw std::runtime_error(err);
             }
             _section = str_from_file;
         }
         //если в строке есть "=", то это группа переменная -> значение, делим на 2 части до = и после
-        if (str_from_file.find('=') != std::string::npos)
+        else if (str_from_file.find('=') != std::string::npos)
         {
             auto it_var = std::find(str_from_file.begin(), str_from_file.end(), '=');
             for (auto i = str_from_file.begin(); i != it_var; i++)
@@ -73,6 +77,14 @@ IniParser::IniParser(std::string filename) : _filename(filename)
             }
             _value = str_value;
         }
+        //если строка не пустая, но в ней нет указанных символов, то выбрасываем исключение
+        else
+        {
+            std::string line_err = std::to_string(count_str);
+            std::string err = "Error in the " + _filename + " on the line: " + line_err;
+            throw std::runtime_error(err);
+        };
+
         _var_value[_var] = _value;
         _section_value[_section] = _var_value;
     }
