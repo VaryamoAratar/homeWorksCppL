@@ -5,7 +5,10 @@ IniParser::IniParser(std::string filename) : _filename(filename)
     std::ifstream in_ini_file(_filename);
     if (!in_ini_file.is_open())
     {
-        throw "File is not open";
+        std::string d{};
+        d.push_back('"');
+        std::string out_err = "The " + d + _filename + d + " file failed to open.";
+        throw std::runtime_error(out_err);
     }
     std::string str_from_file{};
     int count_str{ 0 };
@@ -54,6 +57,11 @@ IniParser::IniParser(std::string filename) : _filename(filename)
                 throw std::runtime_error(err);
             }
             _section = str_from_file;
+            if (_section_value.count(_section))
+            {
+                _var_value = _section_value[_section];
+            }
+
         }
         //если в строке есть "=", то это группа переменная -> значение, делим на 2 части до = и после
         else if (str_from_file.find('=') != std::string::npos)
@@ -76,6 +84,8 @@ IniParser::IniParser(std::string filename) : _filename(filename)
                 str_value += *i;
             }
             _value = str_value;
+            _var_value[_var] = _value;
+            _section_value[_section] = _var_value;
         }
         //если строка не пустая, но в ней нет указанных символов, то выбрасываем исключение
         else
@@ -85,8 +95,6 @@ IniParser::IniParser(std::string filename) : _filename(filename)
             throw std::runtime_error(err);
         };
 
-        _var_value[_var] = _value;
-        _section_value[_section] = _var_value;
     }
     in_ini_file.close();
 };
